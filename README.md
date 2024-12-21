@@ -1,5 +1,7 @@
 # ad-block-for-twitch
 A simple script for Tampermonkey that remove ad from twitch and other sites.
+# How to use it
+1) Download Tampermokey extension for your browser [chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) [, firefox
 
 ```
 // ==UserScript==
