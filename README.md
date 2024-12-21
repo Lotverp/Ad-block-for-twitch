@@ -1,7 +1,7 @@
 # ad-block-for-twitch
 A simple script for Tampermonkey that remove ad from twitch and other sites.
 
-'''
+```
 // ==UserScript==
 // @name         Nascondi Elementi su Twitch
 // @namespace    http://tampermonkey.net/
@@ -33,4 +33,4 @@ A simple script for Tampermonkey that remove ad from twitch and other sites.
     // Esegui nuovamente la funzione ogni secondo (utile per contenuti dinamici)
     setInterval(hideAds, 1000);
 })();
-'''
+```
