@@ -13,9 +13,8 @@ A simple script for Tampermonkey that remove ads from Twitch and other sites.
 // @namespace    http://tampermonkey.net/
 // @version      1.1
 // @description  Nasconde un elemento specifico su Twitch (ad esempio un banner o una sezione) per scopi educativi
-// @author       Il tuo nome
+// @author       Lotverp
 // @match        https://www.twitch.tv/*
-// @grant        none
 // ==/UserScript==
 
 (function() {
