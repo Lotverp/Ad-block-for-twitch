@@ -1,12 +1,15 @@
 # Instructions for Twitch AdBlock Script 🇬🇧
 
+
 ## Overview
 This script is designed to block advertisements on Twitch, ensuring a smooth and uninterrupted viewing experience. It works with Tampermonkey and compatible browser extensions.
+
 
 ## Features
 - Blocks video advertisements.
 - Removes banner ads from the interface.
 - Provides a better viewing experience.
+
 
 ## Requirements
 1. A supported web browser, [Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/windows/), [Opera](https://www.opera.com/it/download).
@@ -14,7 +17,9 @@ This script is designed to block advertisements on Twitch, ensuring a smooth and
 
 
 
+
 ## Installation Steps
+
 
 ### Method 1: Manual Installation
 1. Download the file `twitch_adblock.user.js` from this repository.
@@ -24,15 +29,18 @@ This script is designed to block advertisements on Twitch, ensuring a smooth and
 5. Save the script by clicking **File > Save** or pressing `Ctrl + S`.
 6. Ensure the script is enabled in Tampermonkey.
 
+
 ### Method 2: Automatic Installation
 1. Open the `twitch_adblock.user.js` file in your browser.
 2. Tampermonkey will detect the script and prompt you to install it.
 3. Confirm and enable the script.
 
+
 ## Usage
 1. Visit [Twitch](https://www.twitch.tv/).
 2. The script will automatically block advertisements.
 3. Enjoy your ad-free streaming experience!
+
 
 ## Contributing
 If you encounter issues or have suggestions for improvements, feel free to:
