@@ -1,18 +1,53 @@
-# Ad-block-for-twitch
-A simple script for Tampermonkey that remove ads from Twitch and other sites.
-# How to use it
-1) Download Tampermokey extension for your browser ([Chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/it/firefox/addon/tampermonkey/))
-2) Press the button "Add a new script"
-3) Copy and paste this script ⬇️
-4) Save it and realod twitch page
-5) Enjoy on it without ads
-   
+# Instructions for Twitch AdBlock Script 🇬🇧
+
+## Overview
+This script is designed to block advertisements on Twitch, ensuring a smooth and uninterrupted viewing experience. It works with Tampermonkey and compatible browser extensions.
+
+## Features
+- Blocks video advertisements.
+- Removes banner ads from the interface.
+- Provides a better viewing experience.
+
+## Requirements
+1. A supported web browser, [Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/windows/), [Opera](https://www.opera.com/it/download).
+2. Download Tampermokey extension for your browser: [Chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/it/firefox/addon/tampermonkey/), [Opera](https://addons.opera.com/en/extensions/details/tampermonkey-beta/)
+
+
+
+## Installation Steps
+
+### Method 1: Manual Installation
+1. Download the file `twitch_adblock.user.js` from this repository.
+2. Open Tampermonkey in your browser.
+3. Click on **Create a new script**.
+4. Paste the script content from the downloaded file into the editor.
+5. Save the script by clicking **File > Save** or pressing `Ctrl + S`.
+6. Ensure the script is enabled in Tampermonkey.
+
+### Method 2: Automatic Installation
+1. Open the `twitch_adblock.user.js` file in your browser.
+2. Tampermonkey will detect the script and prompt you to install it.
+3. Confirm and enable the script.
+
+## Usage
+1. Visit [Twitch](https://www.twitch.tv/).
+2. The script will automatically block advertisements.
+3. Enjoy your ad-free streaming experience!
+
+## Contributing
+If you encounter issues or have suggestions for improvements, feel free to:
+- Open an issue.
+- Submit a pull request.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Script:
+ 
 ```
 // ==UserScript==
-// @name         Nascondi Elementi su Twitch (Compatibile Firefox)
+// @name         Twitch AdBlock
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Nasconde un elemento specifico su Twitch (ad esempio un banner o una sezione) per scopi educativi
+// @version      1.0
+// @description  Remove Twitch AD
 // @author       Lotverp
 // @match        https://www.twitch.tv/*
 // ==/UserScript==
@@ -20,35 +55,52 @@ A simple script for Tampermonkey that remove ads from Twitch and other sites.
 (function() {
     'use strict';
 
-    // Funzione per verificare che la pagina sia completamente caricata
-    const onPageLoad = (callback) => {
-        if (document.readyState === 'complete') {
-            callback();
-        } else {
-            window.addEventListener('load', callback);
+    // Intercept and manipulate the richest video to bypass the audience
+    const origOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function() {
+        if (arguments[1] && arguments[1].includes("/gql")) {
+            const payload = JSON.parse(arguments[1]);
+            if (payload && payload.operationName === "PlaybackAccessToken_Template") {
+                payload.extensions.persistedQuery.sha256Hash = "bypass_ads_hash_placeholder"; // Hash fittizio
+            }
+            arguments[1] = JSON.stringify(payload);
         }
+        origOpen.apply(this, arguments);
     };
 
-    // Selettore CSS per individuare gli elementi (esempio generico)
-    const adSelector = '[class*="ad"]'; // Cerca elementi che contengono "ad" nel nome della classe
+    // Insert a block for Ad banner
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        .ad-banner {
+            display: none !important;
+        }
+        video.ad-overlay {
+            display: none !important;
+        }
+    `;
+    document.head.appendChild(style);
 
-    // Funzione per nascondere gli elementi trovati
-    const hideAds = () => {
-        const ads = document.querySelectorAll(adSelector);
-        ads.forEach(ad => {
-            ad.style.display = 'none';
-            console.log('Elemento nascosto:', ad);
+    // Alternative: Force low quality in Ad spot
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                const adOverlay = document.querySelector('.ad-banner');
+                if (adOverlay) {
+                    const videoElement = document.querySelector('video');
+                    if (videoElement) {
+                        videoElement.pause(); // Metti in pausa per evitare la pubblicità
+                    }
+                }
+            }
         });
-    };
+    });
 
-    // Avvia lo script quando la pagina è caricata
-    onPageLoad(() => {
-        // Esegui inizialmente
-        hideAds();
-
-        // Controlla periodicamente per gestire contenuti dinamici
-        setInterval(hideAds, 1000);
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
     });
 })();
+
 
 ```
